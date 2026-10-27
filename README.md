@@ -1,4 +1,4 @@
-# BasicRAG — Advanced, Modular RAG
+# BasicRAG — Simple Modular RAG
 
 A business-oriented RAG toolkit with pluggable ingestion, embeddings, vector
 stores, hybrid search, reranking, query transformation, citations, evaluation,
