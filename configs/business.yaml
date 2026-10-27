@@ -1,0 +1,50 @@
+# Business profile: higher recall, parent-child chunks, query rewriting,
+# and a persistent index. Use with: basicrag --profile business index
+
+profile: business
+
+loaders:
+  paths:
+    - ./papers
+  glob: "**/*.*"
+
+chunking:
+  strategy: recursive
+  chunk_size: 800
+  chunk_overlap: 120
+  parent_child: true
+  parent_chunk_size: 2400
+  parent_chunk_overlap: 200
+
+vector_store:
+  provider: faiss
+  collection: business
+  persist_directory: ./data/vector_store
+  persist: true
+  distance_strategy: cosine
+
+search:
+  strategy: hybrid
+  dense_search_type: similarity
+  k: 10
+  fetch_k: 60
+  dense_weight: 0.55
+  sparse_weight: 0.45
+  rrf_k: 60
+  parent_document: true
+
+rerank:
+  enabled: true
+  provider: llm
+  top_n: 10       # match search.k
+  max_candidates: 40
+  max_chars: 1200
+
+query:
+  rewrite: true
+  hyde: false
+
+pipeline:
+  verbose: true
+  log_level: INFO
+  return_sources: true

@@ -1,0 +1,61 @@
+# Local development profile. Values here are merged with code defaults;
+# environment variables (BASICRAG_*) always take priority.
+
+profile: default
+
+llm:
+  provider: ollama
+  model: llama3.2:latest
+  base_url: http://127.0.0.1:11434
+  api_key: not-needed
+  temperature: 0.0
+
+embeddings:
+  provider: ollama
+  model: embeddinggemma
+  cache: true
+  cache_directory: ./data/cache/embeddings
+
+loaders:
+  paths:
+    - ./papers
+  glob: "**/*.*"
+  continue_on_error: true
+
+chunking:
+  strategy: recursive
+  chunk_size: 1000
+  chunk_overlap: 150
+  parent_child: true
+
+vector_store:
+  provider: faiss
+  collection: default
+  persist_directory: ./data/vector_store
+  persist: true
+  distance_strategy: cosine
+
+search:
+  strategy: hybrid
+  dense_search_type: similarity
+  k: 8
+  fetch_k: 40
+  dense_weight: 0.6
+  sparse_weight: 0.4
+  rrf_k: 60
+  parent_document: true
+
+rerank:
+  enabled: true
+  provider: llm
+  top_n: 3        # 0 = use search.k
+  max_candidates: 30
+
+query:
+  rewrite: true
+  hyde: true
+
+pipeline:
+  verbose: true
+  log_level: INFO
+  return_sources: true

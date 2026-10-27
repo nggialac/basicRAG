@@ -1,0 +1,63 @@
+[project]
+name = "basicrag"
+version = "0.2.0"
+description = "Modular advanced RAG system: hybrid search, reranking, citations, and pluggable providers"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "faiss-cpu>=1.9",
+    "langchain>=1.0",
+    "langchain-community>=0.4",
+    "langchain-core>=1.0",
+    "langchain-experimental>=0.4",
+    "langchain-ollama>=1.0",
+    "langchain-openai>=1.0",
+    "langchain-text-splitters>=1.0",
+    "numpy>=1.26",
+    "ollama>=0.4",
+    "pydantic>=2.8",
+    "pydantic-settings>=2.4",
+    "pypdf>=5.0",
+    "pytest>=9.1.1",
+    "pyyaml>=6.0",
+    "tiktoken>=0.7",
+    "unstructured[pdf]>=0.16",
+]
+
+[project.optional-dependencies]
+api = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+]
+rerank = [
+    "sentence-transformers>=3.0",
+]
+chroma = [
+    "chromadb>=0.5",
+]
+qdrant = [
+    "langchain-qdrant>=0.2",
+    "qdrant-client>=1.12",
+]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[project.scripts]
+basicrag = "basicrag.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.13.0,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
